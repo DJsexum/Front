@@ -1,28 +1,30 @@
 ---
-import '@styles/global.css';
+import '@styles/global.css' 
 import { ClientRouter } from 'astro:transitions';
+import Sidebar from 'src/Components/Sidebar.svelte';
 
-const { page } = Astro.props;
+const { page } = Astro.props
 ---
 
 <html lang="es">
-
 	<head>
-
 		<meta charset="utf-8" />
-		<link rel="icon " type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="icon" href="/favicon.ico" />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
         <ClientRouter />
-		<title>Sistema De Inventario | {page} </title>
-
+		<title>Sistema Inventario | {page}</title>
 	</head>
+	<body class="bg-gray-50 dark:bg-gray-950">
+        <div class="flex h-screen overflow-hidden">
+            <Sidebar client:load activePage={page?.toLowerCase()} />
 
-	<body>
-
-        <slot />
-        
+            <main class="felx-1 overflow-y-auto">
+                <div class="container mx-auto px-6 py-8">
+                    <slot />
+                </div>
+            </main>
+        </div>
 	</body>
-
 </html>
