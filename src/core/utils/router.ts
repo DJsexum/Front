@@ -1,15 +1,13 @@
 export const ROUTERS = 
-{
-    DASHBOARD: 
+[ 
     { 
         path: "/",
         name: "Dashboard",
-        private: true,
+        public: false,
     },
-    LOGIN:
     {
         path: "/auth/login",
         name: "Iniciar Sesion",
         public: true,
     },
-}
+]
