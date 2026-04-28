@@ -2,7 +2,7 @@ export const ROUTERS =
 [ 
     { 
         path: "/",
-        name: "Dashboard",
+        name: "Panel",
         public: false,
     },
     {
