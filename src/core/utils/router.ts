@@ -10,4 +10,9 @@ export const ROUTERS =
         name: "Iniciar Sesion",
         public: true,
     },
+    {
+        path: "/users",
+        name: "Usuarios",
+        public: false,
+    }
 ]
