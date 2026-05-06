@@ -13,15 +13,15 @@
 
 </script>
 
-<table>
+<table class="flex-1 w-full">
 
     <thead>
 
         <tr>
             
-            <th>Nombre</th>
-            <th>Email</th>
-            <th>Acciones</th>
+            <th class="bg-gray-800 text-white text-left px-2">Nombre</th>
+            <th class="bg-gray-800 text-white text-left px-2">Email</th>
+            <th class="bg-gray-800 text-white text-left px-2">Acciones</th>
             
         </tr>
 
@@ -31,11 +31,11 @@
 
         {#each users.users as user}
 
-            <tr>
+            <tr class="odd:bg-gray-100 dark:odd:bg-gray-700">
                 
-                <td> {user.username}</td>
-                <td> {user.email}</td>
-                <td>
+                <td  class="px-2 py-1"> {user.username}</td>
+                <td class="px-2 py-1"> {user.email}</td>
+                <td class="px-2 py-1">
 
                     <buton aria-label="editar" class="bg-gray-800 text-white px-4 py-2 rounded-md">
 
