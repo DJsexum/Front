@@ -7,7 +7,7 @@
 
 </script>
 
-<aside class= "bg-gray-200 w-60 flex flex-col gap-2 p-2">
+<aside class= "bg-gray-200 dark:bg-gray-800 w-60 flex flex-col gap-2 p-2 transition-colors duration-300">
 
     <div class="p-2">
 
@@ -23,7 +23,7 @@
 
     <dvi clas="p-2 flex justify center">
 
-        <button onclick={() => appStore.toggleDarkMode()} class="bg-gray-800 text-white px-4 py-2 rounded-md">
+        <button onclick={() => appStore.toggleDarkMode()} class="bg-gray-800 text-white dark:bg-white dark:text-black px-4 py-2">
 
             {appStore.isDarkMode ? '☀️' : '🌙'}
 

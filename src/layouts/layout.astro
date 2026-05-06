@@ -25,7 +25,7 @@ const { page } = Astro.props
 
 	</head>
 
-	<body class="bg-slate-300">
+	<body class="bg-slate-300 dark:bg-slate-900 text-slate-900 dark:text-slate-100 transition-colors duration-300">
 
         <div class="flex h-screen overflow-hidden">
 
@@ -55,9 +55,9 @@ const { page } = Astro.props
 			)
 
 			document.addEventListener
-			("astro:before-swap", (ev) =>
+			("astro:after-swap", (ev) =>
 				{
-					setTheme (ev.newDocument);
+					setTheme (ev.target);
 				}
 			)
 
