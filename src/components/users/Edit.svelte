@@ -11,7 +11,7 @@
 
         <div class="w-96 bg-white p-4 rounded-md">
 
-            <form>
+            <form onsubmit={(e) => userModel.editUser(userModel.user.id, e)}>
 
                 <h2 class="text-lg font-bold">
 
@@ -23,7 +23,7 @@
 
                 <div class="p-2 flex flex-col">
 
-                    <label for="username" class="block text-sm font-bold">
+                    <label for="fullName" class="block text-sm font-bold">
                         
                         Nombre de Usuario:
 
@@ -33,9 +33,9 @@
                         class="border border-gray-400 rounded-md p-2" 
                         placeholder="Ingrese el nombre de usuario" 
                         type="text" 
-                        id={`username-${id}`} 
-                        name="username" 
-                        value={userModel.user.username}
+                        id={`fullName-${id}`} 
+                        name="fullName" 
+                        value={userModel.user.fullName}
                     />
 
                 </div>
@@ -59,13 +59,27 @@
                 </div>
 
             </form>
+                <div>
 
-                <button aria-label="Cerrar" class="close" onclick={() => (userModel.editDialog = false)}>
+                    <button
+                        class="bg-red-400 text-white px-4 py-2 rounded-md"
+                        onclick={() => (userModel.editDialog = false)}
+                    >
+
+                        Cancelar
+
+                    </button>
+
+                    <button
+                        class="bg-blue-400 text-white px-4 py-2 rounded-md"
+                        type="submit"
+                    >
                     
-                    Cerrar
-                
-                </button>
+                        Guardar
 
+                    </button>
+                    
+                </div>
         </div>
 
     </div>
