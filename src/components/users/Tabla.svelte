@@ -37,7 +37,7 @@
 
             <tr class="odd:bg-gray-100 dark:odd:bg-gray-700">
 
-                <td class="px-2 py-1">{user.username}</td>
+                <td class="px-2 py-1">{user.fullName}</td>
                 <td class="px-2 py-1">{user.email}</td>
                 <td class="px-2 py-1">
 
@@ -53,7 +53,7 @@
 
                             🗑️
 
-                        </button>
+                          </button>
 
                     </div>
 
