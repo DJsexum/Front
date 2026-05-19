@@ -1,74 +1,74 @@
+import { http } from "@core/http"
+
 interface User
 {
-    id: number;
-    fullName: string;
-    email: string;
+    id: number
+    fullName: string
+    email: string
 }
 
-class UserModel
+class UserModel 
 {
-    user = $state <User | null>(null)
-    users = $state <User[]>([])
-    deleteDialog = $state(false)
-    editDialog = $state(false)
+    showCreateModal(): any {
+        throw new Error("Method not implemented.");
+    }
+    user = $state<User | null>(null)
+    users = $state<User[]>([])
+    deleteDialog = $state(false);
+    editDialog = $state(false);
+    createDialog = $state(false);
 
-    async getUsers()
+    async getUsers() 
     {
-        const res = await fetch (`${import.meta.env.PUBLIC_API_URL}/users`);
-        const data = await res.json();
-        this.users = data;
+        this.users = await http.get<User[]>(`${import.meta.env.PUBLIC_API_URL}/users`);
     }
 
-    async deleteUser(id: number)
+    async deleteUser(id: number) 
     {
-        await fetch 
-        (`${import.meta.env.PUBLIC_API_URL}/users/${id}`,
-            {
-                method: 'DELETE'
-            }
-        );
+        await http.delete<User>(`${import.meta.env.PUBLIC_API_URL}/users/${id}`);
         this.getUsers();
         this.deleteDialog = false;
     }
 
-    async editUser(id: number, e: Event)
+    async editUser(id: number, e: Event) 
     {
         e.preventDefault();
-
         const formData = new FormData(e.target as HTMLFormElement);
         const data = Object.fromEntries(formData);
 
-        await fetch 
-        (`${import.meta.env.PUBLIC_API_URL}/users/${id}`,
-            {
-                method: 'PATCH',
-                body: JSON.stringify
-                (
-                    {
-                        ...data
-                    }
-                ),
-                headers: 
-                {
-                    'Content-Type': 'application/json'
-                }
-            }
-        );
+        await http.patch<User>(`${import.meta.env.PUBLIC_API_URL}/users/${id}`, data);
         this.getUsers();
         this.editDialog = false;
     }
 
-    showEditModal(user: User)
+    async createUser(e: Event)
+    {
+        e.preventDefault();
+        const formData = new FormData(e.target as HTMLFormElement);
+        const data = Object.fromEntries(formData);
+
+        await http.post<User>(`${import.meta.env.PUBLIC_API_URL}/users`, data);
+        this.getUsers();
+        this.createDialog = false;
+    }
+
+    showCreateDialog()
+    {
+        this.user = null;
+        this.createDialog = true;
+    }
+
+    showEditModal(user: User) 
     {
         this.user = user;
         this.editDialog = true;
     }
 
-    showDeleteModal(user: User)
+    showDeleteModal(user: User) 
     {
         this.user = user;
         this.deleteDialog = true;
     }
 }
 
-export const userModel = new UserModel()
+export const userModel = new UserModel();

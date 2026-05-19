@@ -2,6 +2,7 @@
 
     import Delete from "./Delete.svelte";
     import Edit from "./Edit.svelte";
+    import Create from "./Create.svelte";
     import { onMount } from "svelte";
     import { userModel } from "./user.svelte";
 
@@ -15,7 +16,17 @@
 
 <Delete {userModel}/>
 <Edit {userModel}/>
+<Create {userModel}/>
 
+<div class="w-full flex justify-end">
+
+    <button class="bg-gray-800 text-2xl text-white px-2 py-1 rounded-md" onclick={() => userModel.showCreateModal()}>
+
+        ➕
+
+    </button>
+
+</div>
 
 <table class="flex-1 w-full">
 
