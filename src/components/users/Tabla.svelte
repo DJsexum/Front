@@ -18,15 +18,16 @@
 <Edit {userModel}/>
 <Create {userModel}/>
 
-<div class="w-full flex justify-end">
+<div class="w-full flex justify-end mb-4">
 
-    <button class="bg-gray-800 text-2xl text-white px-2 py-1 rounded-md" onclick={() => userModel.showCreateModal()}>
-
+    <button class="bg-gray-800 text-xl text-white px-2 py-1 rounded-md border border-white" onclick={() => userModel.showCreateModal()}>
+    
         ➕
-
+    
     </button>
 
 </div>
+
 
 <table class="flex-1 w-full">
 

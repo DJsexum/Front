@@ -1,6 +1,6 @@
 import { http } from "@core/http"
 
-interface User
+interface User 
 {
     id: number
     fullName: string
@@ -9,9 +9,6 @@ interface User
 
 class UserModel 
 {
-    showCreateModal(): any {
-        throw new Error("Method not implemented.");
-    }
     user = $state<User | null>(null)
     users = $state<User[]>([])
     deleteDialog = $state(false);
@@ -41,18 +38,17 @@ class UserModel
         this.editDialog = false;
     }
 
-    async createUser(e: Event)
+    async createUser(e: Event) 
     {
         e.preventDefault();
         const formData = new FormData(e.target as HTMLFormElement);
         const data = Object.fromEntries(formData);
-
         await http.post<User>(`${import.meta.env.PUBLIC_API_URL}/users`, data);
         this.getUsers();
         this.createDialog = false;
     }
 
-    showCreateDialog()
+    showCreateModal() 
     {
         this.user = null;
         this.createDialog = true;
