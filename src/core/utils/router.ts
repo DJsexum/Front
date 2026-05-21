@@ -14,5 +14,10 @@ export const ROUTERS =
         path: "/users",
         name: "Usuarios",
         public: false,
+    },
+    {
+        path: "/auth/categories",
+        name: "Categorias",
+        public: false,
     }
 ]
