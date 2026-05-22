@@ -1,5 +1,5 @@
-export const ROUTERS = 
-[ 
+export const ROUTES = 
+[
     { 
         path: "/",
         name: "Panel",
@@ -20,4 +20,11 @@ export const ROUTERS =
         name: "Categorias",
         public: false,
     }
+    /*
+    {
+         path: "/products",
+         name: "Productos",
+         public: false
+    },
+    */
 ]

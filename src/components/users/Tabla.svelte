@@ -20,7 +20,7 @@
 
 <div class="w-full flex justify-end mb-4">
 
-    <button class="bg-gray-800 text-xl text-white px-2 py-1 rounded-md border border-white" onclick={() => userModel.showCreateModal()}>
+    <button class="bg-gray-800 text-xl text-white px-2 py-1 rounded-md border-white" onclick={() => userModel.showCreateModal()}>
     
         ➕
     
