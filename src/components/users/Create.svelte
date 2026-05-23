@@ -1,6 +1,8 @@
 <script lang="ts">
+
     let { userModel } = $props();
     let id = $props.id();
+    
 </script>
 
 {#if userModel.createDialog}

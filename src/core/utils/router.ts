@@ -19,12 +19,10 @@ export const ROUTES =
         path: "/auth/categories",
         name: "Categorias",
         public: false,
-    }
-    /*
+    },
     {
          path: "/products",
          name: "Productos",
          public: false
     },
-    */
 ]
