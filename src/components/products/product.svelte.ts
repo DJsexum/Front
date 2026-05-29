@@ -1,6 +1,7 @@
 import { http } from "@core/http"
 
-interface Category {
+interface Category 
+{
     id: number
     name: string
 }
@@ -9,8 +10,9 @@ interface Product
 {
     id: number
     name: string
-    priceUnit: number
-    categoryId: number
+    priceUnit: number | string
+    stock: number
+    categoryId?: number
     category?: Category
 }
 
@@ -25,7 +27,14 @@ class ProductModel
 
     async getProducts()
     {
-        this.products = await http.get<Product[]>(`${import.meta.env.PUBLIC_API_URL}/products`);
+        const products = await http.get<Product[]>(`${import.meta.env.PUBLIC_API_URL}/products`);
+        this.products = products.map((product) =>
+        (
+            {
+                ...product,
+                priceUnit: typeof product.priceUnit === 'string' ? Number(product.priceUnit) : product.priceUnit,
+            }
+        ));
     }
 
     async getCategories()
@@ -47,7 +56,18 @@ class ProductModel
         const data = Object.fromEntries(formData) as any;
 
         if (data.priceUnit !== undefined) data.priceUnit = Number(data.priceUnit);
-        if (data.categoryId !== undefined) data.categoryId = Number(data.categoryId);
+        if (data.stock !== undefined) data.stock = Number(data.stock);
+        if (data.categoryId !== undefined) 
+        {
+            if (data.categoryId === '')
+            {
+                data.categoryId = null;
+            }
+            else
+            {
+                data.categoryId = Number(data.categoryId);
+            }
+        }
 
         await http.patch<Product>(`${import.meta.env.PUBLIC_API_URL}/products/${id}`, data);
         this.getProducts();
@@ -61,7 +81,18 @@ class ProductModel
         const data = Object.fromEntries(formData) as any;
 
         if (data.priceUnit !== undefined) data.priceUnit = Number(data.priceUnit);
-        if (data.categoryId !== undefined) data.categoryId = Number(data.categoryId);
+        if (data.stock !== undefined) data.stock = Number(data.stock);
+        if (data.categoryId !== undefined) 
+        {
+            if (data.categoryId === '')
+            {
+                delete data.categoryId;
+            }
+            else
+            {
+                data.categoryId = Number(data.categoryId);
+            }
+        }
 
         await http.post<Product>(`${import.meta.env.PUBLIC_API_URL}/products`, data);
         this.getProducts();

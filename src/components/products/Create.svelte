@@ -49,8 +49,21 @@
                 </div>
 
                 <div class="p-2 flex flex-col">
+                    <label for="stock" class="block text-sm font-bold">Stock:</label>
+                    <input
+                        class="border border-gray-400 rounded-md p-2"
+                        placeholder="0"
+                        type="number"
+                        min="0"
+                        id={`stock-${id}`}
+                        name="stock"
+                    />
+                </div>
+
+                <div class="p-2 flex flex-col">
                     <label for="categoryId" class="block text-sm font-bold">Categoría:</label>
                     <select name="categoryId" id={`categoryId-${id}`} class="border border-gray-400 rounded-md p-2">
+                        <option value="">Sin clase</option>
                         {#each productModel.categories as cat}
                             <option value={cat.id}>{cat.name}</option>
                         {/each}

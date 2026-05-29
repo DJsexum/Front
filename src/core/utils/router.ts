@@ -16,6 +16,11 @@ export const ROUTES =
         public: false,
     },
     {
+        path: "/providers",
+        name: "Proveedores",
+        public: false,
+    },
+    {
         path: "/auth/categories",
         name: "Categorias",
         public: false,
