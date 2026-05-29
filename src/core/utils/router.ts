@@ -21,8 +21,8 @@ export const ROUTES =
         public: false,
     },
     {
-         path: "/products",
-         name: "Productos",
-         public: false
+        path: "/products",
+        name: "Productos",
+        public: false,
     },
 ]

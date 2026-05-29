@@ -38,6 +38,31 @@
 
                 </div>
 
+                <div class="p-2 flex flex-col">
+
+                    <label for="priceUnit" class="block text-sm font-bold">Precio unitario:</label>
+
+                    <input
+                        class="border border-gray-400 rounded-md p-2"
+                        placeholder="0.00"
+                        type="number"
+                        step="0.01"
+                        id={`priceUnit-${id}`}
+                        name="priceUnit"
+                        value={productModel.product.priceUnit}
+                    />
+
+                </div>
+
+                <div class="p-2 flex flex-col">
+                    <label for="categoryId" class="block text-sm font-bold">Categoría:</label>
+                    <select name="categoryId" id={`categoryId-${id}`} class="border border-gray-400 rounded-md p-2">
+                        {#each productModel.categories as cat}
+                            <option value={cat.id} selected={productModel.product.category?.id === cat.id}>{cat.name}</option>
+                        {/each}
+                    </select>
+                </div>
+
                 <div class="p-2 flex justify-end gap-2 mt-3">
 
                     <button

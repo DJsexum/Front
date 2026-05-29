@@ -16,7 +16,7 @@
             <button
                 aria-label="Cerrar"
                 class="close"
-                onclick={() => (productModel.deleteDialog = false)}>X</button
+                onclick={() => (productModel.deleteDialog = false)}> ❌ </button
             >
 
             <div class="p-4">
