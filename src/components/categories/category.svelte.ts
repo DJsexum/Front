@@ -6,10 +6,21 @@ interface Category
     name: string
 }
 
+interface Product
+{
+    id: number
+    name: string
+    stock: number
+    priceUnit: number | string
+    categoryId?: number
+}
+
 class CategoryModel 
 {
     category = $state<Category | null>(null)
     categories = $state<Category[]>([])
+    products = $state<Product[]>([])
+    expandedCategoryIds = $state<number[]>([])
     deleteDialog = $state(false);
     editDialog = $state(false);
     createDialog = $state(false);
@@ -17,6 +28,28 @@ class CategoryModel
     async getCategories() 
     {
         this.categories = await http.get<Category[]>(`${import.meta.env.PUBLIC_API_URL}/categories`);
+        await this.getProducts();
+    }
+
+    async getProducts()
+    {
+        this.products = await http.get<Product[]>(`${import.meta.env.PUBLIC_API_URL}/products`);
+    }
+
+    getProductsByCategory(categoryId: number)
+    {
+        return this.products.filter((product) => product.categoryId === categoryId);
+    }
+
+    toggleCategoryProducts(categoryId: number)
+    {
+        if (this.expandedCategoryIds.includes(categoryId))
+        {
+            this.expandedCategoryIds = this.expandedCategoryIds.filter((id) => id !== categoryId);
+            return;
+        }
+
+        this.expandedCategoryIds = [...this.expandedCategoryIds, categoryId];
     }
 
     async deleteCategory(id: number) 

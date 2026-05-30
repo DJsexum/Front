@@ -30,4 +30,9 @@ export const ROUTES =
         name: "Productos",
         public: false,
     },
+    {
+        path: "/movements",
+        name: "Movimientos",
+        public: false,
+    },
 ]
