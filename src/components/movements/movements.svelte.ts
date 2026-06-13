@@ -12,10 +12,15 @@ interface User {
     fullName: string;
 }
 
+export enum MovementType {
+    IN = "INGRESO",
+    OUT = "EGRESO",
+}
+
 interface Movement {
     id: number;
-    type: 'IN' | 'OUT';
     date: string;
+    type: 'IN' | 'OUT';
     amount: number;
     priceUnit: number | string;
     product: Product;
@@ -32,6 +37,10 @@ class MovementModel {
     products = $state<Product[]>([]);
     users = $state<User[]>([]);
     createDialog = $state(false);
+
+    // ✅ NUEVO: eliminación
+    deleteDialog = $state(false);
+    movement = $state<Movement | null>(null);
 
     async getMovements() {
         const movements = await http.get<Movement[]>(`${import.meta.env.PUBLIC_API_URL}/movements`);
@@ -63,6 +72,21 @@ class MovementModel {
         await this.getProducts();
         await this.getUsers();
         this.createDialog = true;
+    }
+
+    // ✅ NUEVO: abrir modal de delete
+    async showDeleteModal(movement: Movement) {
+        this.movement = movement;
+        this.deleteDialog = true;
+    }
+
+    // ✅ NUEVO: ejecutar delete
+    async deleteMovement(id: number) {
+        if (!id) return;
+        await http.delete<Movement>(`${import.meta.env.PUBLIC_API_URL}/movements/${id}`);
+        await this.getMovements();
+        this.deleteDialog = false;
+        this.movement = null;
     }
 }
 

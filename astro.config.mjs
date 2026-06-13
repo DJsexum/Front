@@ -20,6 +20,12 @@ export default defineConfig
         mode: 'standalone'
       }
     ),
+    
+    server: 
+    {
+    port:4000,
+    host: true,
+    },
 
     vite: 
     {

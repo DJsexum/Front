@@ -1,6 +1,7 @@
 <script lang="ts">
 
     import Create from './Create.svelte';
+    import Delete from './Delete.svelte';
     import { movementModel } from './movements.svelte';
     import { onMount } from 'svelte';
 
@@ -23,6 +24,7 @@
 </script>
 
 <Create {movementModel} />
+<Delete movementModel={movementModel} />
 
 <div class="w-full flex justify-end mb-4">
 
@@ -47,6 +49,7 @@
             <th class="bg-gray-800 text-white text-center p-2">Cantidad</th>
             <th class="bg-gray-800 text-white text-center p-2">Precio unitario</th>
             <th class="bg-gray-800 text-white text-center p-2">Total</th>
+            <th class="bg-gray-800 text-white text-center p-2">Acciones</th>
 
         </tr>
 
@@ -60,12 +63,24 @@
 
                 <td class="px-2 py-1 text-left">{formatDate(movement.date)}</td>
                 <td class="px-2 py-1 text-left">{movement.product?.name}</td>
-                <td class="px-2 py-1 text-center">{movement.user.fullName}</td>
+                <td class="px-2 py-1 text-center">{movement.user?.fullName ?? '-'}</td>
                 <td class="px-2 py-1 text-center">{movement.type === 'IN' ? 'Entrada' : 'Salida'}</td>
                 <td class="px-2 py-1 text-center">{movement.amount}</td>
                 <td class="px-2 py-1 text-center">${typeof movement.priceUnit === 'string' ? Number(movement.priceUnit).toFixed(2) : movement.priceUnit.toFixed(2)}</td>
                 <td class="px-2 py-1 text-center">${((typeof movement.priceUnit === 'string' ? Number(movement.priceUnit) : movement.priceUnit) * movement.amount).toFixed(2)}</td>
+                <td class="px-2 py-1 text-center">
 
+                    <button
+                        class="bg-red-500 text-white px-3 py-1 rounded-md"
+                        onclick={() => movementModel.showDeleteModal(movement)}
+                    >
+
+                        Eliminar
+
+                    </button>
+
+                </td>
+                
             </tr>
 
         {/each}
