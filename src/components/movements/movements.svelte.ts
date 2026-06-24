@@ -1,92 +1,126 @@
-import { http } from '@core/http';
+import type { Category } from "@components/categories/category.svelte"
+import { http } from "@core/http"
 
-interface Product {
-    id: number;
-    name: string;
-    stock: number;
-    priceUnit: number | string;
+export enum MovementType 
+{
+    IN = "IN",
+    OUT = "OUT",
 }
 
-interface User {
-    id: number;
-    fullName: string;
+export const MovementTypeOptions = 
+[
+    { label: "Ingreso", value: MovementType.IN },
+    { label: "Egreso", value: MovementType.OUT },
+]
+
+export interface Movement 
+{
+    id: number
+    type: MovementType
+    date: string
+    amount: number
+    priceUnit: number
+    productId: number
+    userId: number
 }
 
-export enum MovementType {
-    IN = "INGRESO",
-    OUT = "EGRESO",
-}
-
-interface Movement {
-    id: number;
-    date: string;
-    type: 'IN' | 'OUT';
-    amount: number;
-    priceUnit: number | string;
-    product: Product;
-    user: User;
-}
-
-export interface MovementItem {
-    productId: number;
-    amount: number;
-}
-
-class MovementModel {
-    movements = $state<Movement[]>([]);
-    products = $state<Product[]>([]);
-    users = $state<User[]>([]);
+class MovementModel 
+{
+    movement = $state<Movement | null>(null)
+    movements = $state<Movement[]>([])
+    deleteDialog = $state(false);
+    editDialog = $state(false);
     createDialog = $state(false);
 
-    // ✅ NUEVO: eliminación
-    deleteDialog = $state(false);
-    movement = $state<Movement | null>(null);
-
-    async getMovements() {
-        const movements = await http.get<Movement[]>(`${import.meta.env.PUBLIC_API_URL}/movements`);
-        this.movements = movements.map((movement) =>
-        (
-            {
-                ...movement,
-                priceUnit: typeof movement.priceUnit === 'string' ? Number(movement.priceUnit) : movement.priceUnit,
-                amount: Number(movement.amount),
-            }
-        ));
+    async getMovements() 
+    {
+        this.movements = await http.get<Movement[]>(`${import.meta.env.PUBLIC_API_URL}/movements`);
     }
 
-    async getProducts() {
-        this.products = await http.get<Product[]>(`${import.meta.env.PUBLIC_API_URL}/products`);
+    async deleteMovement(id: number) 
+    {
+        await http.delete<Movement>(`${import.meta.env.PUBLIC_API_URL}/movements/${id}`);
+        this.getMovements();
+        this.deleteDialog = false;
     }
 
-    async getUsers() {
-        this.users = await http.get<User[]>(`${import.meta.env.PUBLIC_API_URL}/users`);
+    async editMovement(id: number, e: Event) 
+    {
+        e.preventDefault();
+        const formData = new FormData(e.target as HTMLFormElement);
+        const data = Object.fromEntries(formData);
+
+        await http.patch<Category>(`${import.meta.env.PUBLIC_API_URL}/movements/${id}`, data);
+        this.getMovements();
+        this.editDialog = false;
     }
 
-    async createMovement(data: { type: 'IN' | 'OUT'; userId: number; items: MovementItem[] }) {
-        await http.post<Movement[]>(`${import.meta.env.PUBLIC_API_URL}/movements`, data);
-        await this.getMovements();
+    async createMovement(e: Event) 
+    {
+        e.preventDefault();
+        const formData = new FormData(e.target as HTMLFormElement);
+        const data = Object.fromEntries(formData);
+        await http.post<Movement>(`${import.meta.env.PUBLIC_API_URL}/movements`, data);
+        this.getMovements();
         this.createDialog = false;
     }
 
-    async showCreateModal() {
-        await this.getProducts();
-        await this.getUsers();
+    showCreateModal() 
+    {
+        this.movement = null;
         this.createDialog = true;
     }
 
-    // ✅ NUEVO: abrir modal de delete
-    async showDeleteModal(movement: Movement) {
+    showEditModal(movement: Movement) 
+    {
+        this.movement = movement;
+        this.editDialog = true;
+    }
+
+    showDeleteModal(movement: Movement) 
+    {
         this.movement = movement;
         this.deleteDialog = true;
     }
 
-    // ✅ NUEVO: ejecutar delete
-    async deleteMovement(id: number) {
-        if (!id) return;
-        await http.delete<Movement>(`${import.meta.env.PUBLIC_API_URL}/movements/${id}`);
-        await this.getMovements();
-        this.deleteDialog = false;
-        this.movement = null;
+    formatPriceUnit(priceUnit: number) 
+    {
+        return new Intl.NumberFormat
+        (
+            'es-AR', 
+            {
+                style: 'currency',
+                currency: 'ARS',
+            }
+        ).format(priceUnit);
+    }
+
+    formatDate(date: string) 
+    {
+        const dateObj = new Date(date);
+        return new Intl.DateTimeFormat
+        (
+            'es-AR', 
+            {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+            }
+        ).format(dateObj);
+    }
+
+    formatDateToInput(date: string) 
+    {
+        const dateObj = new Date(date);
+        return new Intl.DateTimeFormat
+        (
+            'en-CA', 
+            {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+            }
+        ).format(dateObj);
     }
 }
 

@@ -1,108 +1,131 @@
 <script lang="ts">
+    import { productModel } from "@components/products/product.svelte";
+    import { userModel } from "@components/users/user.svelte";
+    import { MovementType, MovementTypeOptions } from "./movements.svelte";
 
-    let { productModel } = $props();
+    let { movementModel } = $props();
     let id = $props.id();
-
 </script>
 
-{#if productModel.editDialog}
+{#if movementModel.editDialog}
+    <div
+        class="w-full text-black h-full fixed top-0 left-0 flex flex-col items-center bg-transparent justify-center backdrop-blur-xl"
+    >
+        <div class="bg-white rounded-md p-4 w-auto">
+            <form onsubmit={(e) => movementModel.editMovement(movementModel.movement?.id, e)}>
+                <h2 class="text-lg font-bold">Editar Movimiento</h2>
+                <hr />
 
-    <div class="w-full text-black h-full fixed top-0 left-0 flex flex-col items-center bg-transparent justify-center backdrop-blur-xl">
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="p-2 flex flex-col">
+                        <label for="date" class="block text-sm font-bold"
+                            >Fecha:</label
+                        >
+                        <input
+                            class="border border-gray-400 rounded-md p-2"
+                            placeholder="Ingrese la fecha"
+                            type="date"
+                            id={`date-${id}`}
+                            name="date"
+                            value={movementModel.formatDateToInput(
+                                movementModel.movement?.date,
+                            )}
+                        />
+                    </div>
+                    <div class="p-2 flex flex-col">
+                        <label for="type" class="block text-sm font-bold"
+                            >Tipo:</label
+                        >
+                        <select
+                            class="border border-gray-400 rounded-md p-2"
+                            id={`type-${id}`}
+                            name="type"
+                            value={movementModel.movement?.type}
+                        >
+                            {#each MovementTypeOptions as option}
+                                <option value={option.value}>{option.label}</option>
+                            {/each}
+                        </select>
+                    </div>
+                    <div class="p-2 flex flex-col">
+                        <label for="amount" class="block text-sm font-bold"
+                            >Monto:</label
+                        >
+                        <input
+                            class="border border-gray-400 rounded-md p-2"
+                            placeholder="Ingrese el monto"
+                            type="number"
+                            id={`amount-${id}`}
+                            name="amount"
+                            value={movementModel.movement.amount}
+                        />
+                    </div>
 
-        <div class="bg-white rounded-md p-4 w-96">
+                    <div class="p-2 flex flex-col">
+                        <label for="priceUnit" class="block text-sm font-bold"
+                            >Precio Unitario:</label
+                        >
+                        <input
+                            class="border border-gray-400 rounded-md p-2"
+                            placeholder="Ingrese el precio unitario"
+                            type="number"
+                            id={`priceUnit-${id}`}
+                            name="priceUnit"
+                            value={movementModel.movement.priceUnit}
+                        />
+                    </div>
 
-            <form onsubmit={(e) => productModel.editProduct(productModel.product.id, e)}>
+                    <div class="p-2 flex flex-col">
+                        <label for="userId" class="block text-sm font-bold"
+                            >Usuario:</label
+                        >
+                        <select
+                            class="border border-gray-400 rounded-md p-2"
+                            id={`userId-${id}`}
+                            name="userId"
+                            value={movementModel.movement.userId}
+                        >
+                            <option value="">Seleccione un usuario</option>
+                            {#each userModel.users as user}
+                                <option value={user.id}>{user.fullName}</option>
+                            {/each}
+                        </select>
+                    </div>
 
-                <h2 class="text-lg font-bold">
-                    
-                    Editar Producto
-                
-                </h2>
-                
-                <div class="p-2 flex flex-col">
-
-                    <label for="name" class="block text-sm font-bold">
-                        
-                        Nombre:
-                        
-                    </label>
-
-                    <input
-                        class="border border-gray-400 rounded-md p-2"
-                        placeholder="Ingrese el nombre completo"
-                        type="text"
-                        id={`name-${id}`}
-                        name="name"
-                        value={productModel.product.name}
-                    />
-
+                    <div class="p-2 flex flex-col">
+                        <label for="productId" class="block text-sm font-bold"
+                            >Producto:</label
+                        >
+                        <select
+                            class="border border-gray-400 rounded-md p-2"
+                            id={`productId-${id}`}
+                            name="productId"
+                            value={movementModel.movement.productId}
+                        >
+                            <option value="">Seleccione un producto</option>
+                            {#each productModel.products as product}
+                                <option value={product.id}
+                                    >{product.name}</option
+                                >
+                            {/each}
+                        </select>
+                    </div>
                 </div>
-
-                <div class="p-2 flex flex-col">
-
-                    <label for="priceUnit" class="block text-sm font-bold">Precio unitario:</label>
-
-                    <input
-                        class="border border-gray-400 rounded-md p-2"
-                        placeholder="0.00"
-                        type="number"
-                        step="0.01"
-                        id={`priceUnit-${id}`}
-                        name="priceUnit"
-                        value={productModel.product.priceUnit}
-                    />
-
-                </div>
-
-                <div class="p-2 flex flex-col">
-                    <label for="stock" class="block text-sm font-bold">Stock:</label>
-                    <input
-                        class="border border-gray-400 rounded-md p-2"
-                        placeholder="0"
-                        type="number"
-                        min="0"
-                        id={`stock-${id}`}
-                        name="stock"
-                        value={productModel.product.stock}
-                    />
-                </div>
-
-                <div class="p-2 flex flex-col">
-                    <label for="categoryId" class="block text-sm font-bold">Categoría:</label>
-                    <select name="categoryId" id={`categoryId-${id}`} class="border border-gray-400 rounded-md p-2">
-                        <option value="" selected={!productModel.product.category}>Sin clase</option>
-                        {#each productModel.categories as cat}
-                            <option value={cat.id} selected={productModel.product.category?.id === cat.id}>{cat.name}</option>
-                        {/each}
-                    </select>
-                </div>
-
                 <div class="p-2 flex justify-end gap-2 mt-3">
-
                     <button
                         class="bg-red-400 text-white px-4 py-2 rounded-md"
-                        onclick={() => (productModel.editDialog = false)}
+                        onclick={() => (movementModel.editDialog = false)}
                     >
-
                         Cancelar
-
                     </button>
-
                     <button
                         class="bg-blue-400 text-white px-4 py-2 rounded-md"
                         type="submit"
                     >
-
                         Guardar
-
                     </button>
-
                 </div>
-
             </form>
-
         </div>
-
     </div>
-
 {/if}

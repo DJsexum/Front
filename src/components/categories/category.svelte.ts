@@ -100,3 +100,4 @@ class CategoryModel
 }
 
 export const categoryModel = new CategoryModel();
+export type { Category, Product };

@@ -42,14 +42,19 @@
                             aria-label="Editar"
                             class="bg-gray-800 text-white px-4 rounded-md"
                         >
-                            Editar
+                        
+                            ✏️
+
                         </button>
+
                         <button
                             onclick={() => providerModel.showDeleteModal(provider)}
                             aria-label="Eliminar"
                             class="bg-red-500 text-white px-4 rounded-md"
                         >
-                            Eliminar
+
+                            🗑️
+
                         </button>
                     </div>
                 </td>

@@ -66,7 +66,7 @@
                             class="bg-gray-800 text-white px-4 rounded-md"
                         >
 
-                            Editar
+                            ✏️
 
                         </button>
 
@@ -76,7 +76,7 @@
                             class="bg-red-500 text-white px-4 rounded-md"
                         >
 
-                            Eliminar
+                            🗑️
 
                         </button>
 
